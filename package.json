@@ -1,7 +1,7 @@
 {
   "name": "deadshot-official-client",
   "version": "0.0.1",
-  "description": "",
+  "description": "Official desktop client for DEADSHOT.io",
   "main": "src/main.js",
   "scripts": {
     "start": "electron-forge start",
@@ -44,6 +44,22 @@
         "repo": "deadshot-official-client"
       }
     ]
+  },
+  
+  "config": {
+    "forge": {
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "platforms": ["win32"]
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": ["win32", "darwin", "linux"]
+        }
+      ]
+    }
   }
+  
   
 }
