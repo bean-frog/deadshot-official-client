@@ -1,13 +1,17 @@
 const { app, BrowserWindow } = require('electron/main')
+const { autoUpdater } = require('electron-updater')
 const path = require('node:path')
+const { ipcMain } = require('electron')
 
 let mainWin, splash
 
 function createMainWin() {
   mainWin = new BrowserWindow({
-    width: 800,
-    height: 600,
-    show: false, // Hide the main window initially
+    width: 1600,
+    height: 900,
+    show: false, // initially hidden
+    fullscreen: true,
+    autoHideMenuBar: true,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js')
     }
@@ -16,18 +20,22 @@ function createMainWin() {
   mainWin.loadURL('https://deadshot.io')
 
   mainWin.webContents.once('did-finish-load', () => {
-    setTimeout(() => { // Add a 2-second delay
+    // Small delay for dramatic effect
+    setTimeout(() => {
       if (splash) {
-        splash.close() // Close the splash screen
+        splash.close()
       }
-      mainWin.show() // Show the main window
+      mainWin.show()
+
+      // Start checking for updates after the main window is shown
+      checkForUpdates()
     }, 2000)
   })
 }
 
 function createSplashWin() {
   splash = new BrowserWindow({
-    width: 400,
+    width: 512,
     height: 300,
     frame: false,
     alwaysOnTop: true,
@@ -36,6 +44,19 @@ function createSplashWin() {
 
   splash.loadFile('src/splash.html')
   splash.center()
+}
+
+// Auto-Updater Function
+function checkForUpdates() {
+  autoUpdater.checkForUpdatesAndNotify()
+
+  autoUpdater.on('update-available', () => {
+    mainWin.webContents.send('update_available')
+  })
+
+  autoUpdater.on('update-downloaded', () => {
+    mainWin.webContents.send('update_downloaded')
+  })
 }
 
 app.whenReady().then(() => {
@@ -54,4 +75,10 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
   }
+})
+
+// Install updates and restart when ready
+
+ipcMain.on('restart_app', () => {
+  autoUpdater.quitAndInstall()
 })
