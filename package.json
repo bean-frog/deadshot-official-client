@@ -1,0 +1,38 @@
+{
+  "name": "deadshot-official-client",
+  "version": "0.0.1",
+  "description": "",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "publish": "electron-forge publish",
+    "tailwind": "npx tailwindcss -o src/index.css --watch --minify"
+  },
+  "keywords": [],
+  "author": "beanfrog",
+  "license": "ISC",
+  "devDependencies": {
+    "@electron-forge/cli": "^7.6.0",
+    "@electron-forge/maker-deb": "^7.6.0",
+    "@electron-forge/maker-rpm": "^7.6.0",
+    "@electron-forge/maker-squirrel": "^7.6.0",
+    "@electron-forge/maker-zip": "^7.6.0",
+    "@electron-forge/plugin-auto-unpack-natives": "^7.6.0",
+    "@electron-forge/plugin-fuses": "^7.6.0",
+    "@electron/fuses": "^1.8.0",
+    "electron": "33.2.1"
+  },
+  "dependencies": {
+    "@electron/remote": "^2.1.2",
+    "child-process": "^1.0.2",
+    "discord-rich-presence": "^0.0.8",
+    "electron-squirrel-startup": "^1.0.1",
+    "electron-store": "^10.0.1",
+    "gar": "^1.0.4",
+    "original-fs": "^1.2.0",
+    "path": "^0.12.7",
+    "tailwindcss": "^3.4.17"
+  }
+}
