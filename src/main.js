@@ -4,6 +4,13 @@ const path = require('node:path')
 const { ipcMain } = require('electron')
 
 let mainWin, splash
+app.commandLine.appendSwitch('enable-gpu-rasterization');
+app.commandLine.appendSwitch('enable-zero-copy');
+app.commandLine.appendSwitch('ignore-gpu-blocklist');
+app.commandLine.appendSwitch('disable-software-rasterizer');
+app.commandLine.appendSwitch('disable-frame-rate-limit');
+app.commandLine.appendSwitch('disable-gpu-vsync');
+//app.commandLine.appendSwitch('show-fps-counter'); //debug
 
 function createMainWin() {
   mainWin = new BrowserWindow({
@@ -20,14 +27,14 @@ function createMainWin() {
   mainWin.loadURL('https://deadshot.io')
 
   mainWin.webContents.once('did-finish-load', () => {
-    // Small delay for dramatic effect
+    // Small delay for dramatic effect (also did-finish-load fires before content is shown)
     setTimeout(() => {
       if (splash) {
         splash.close()
       }
       mainWin.show()
 
-      // Start checking for updates after the main window is shown
+      // autoupdater
       checkForUpdates()
     }, 2000)
   })
@@ -46,7 +53,7 @@ function createSplashWin() {
   splash.center()
 }
 
-// Auto-Updater Function
+
 function checkForUpdates() {
   autoUpdater.checkForUpdatesAndNotify()
 
