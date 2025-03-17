@@ -69,7 +69,7 @@ ipcMain.handle('update-rpc', (e, info) => {
 const [timeLeft, mode, map, ingame] = JSON.parse(info);
 
 client.updatePresence({
-  state: `${timeLeft} remaining`,
+  state: ingame ? `${timeLeft} remaining` : null,
   details: ingame ? `${mode} on ${map}` : "In the lobby",
 
 });
