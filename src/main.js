@@ -14,14 +14,15 @@ app.commandLine.appendSwitch('disable-gpu-vsync');
 
 function createMainWin() {
   mainWin = new BrowserWindow({
+    icon: "./logo.ico",
     width: 1600,
     height: 900,
     show: false, // initially hidden
     fullscreen: true,
     autoHideMenuBar: true,
-    webPreferences: {
+webPreferences: {
       preload: path.join(__dirname, 'preload.js')
-    }
+    },
   })
 
   mainWin.loadURL('https://deadshot.io')
@@ -53,6 +54,26 @@ function createSplashWin() {
   splash.center()
 }
 
+const client = require('discord-rich-presence')('1350952795464794152');
+
+client.updatePresence({
+  state: 'Deadshot.io',
+  details: 'Waiting...',
+  largeImageText: "large image text",
+  largeImageKey: "mobileicon",
+  startTimestamp: Date.now(),
+
+});
+
+ipcMain.handle('update-rpc', (e, info) => {
+const [timeLeft, mode, map, ingame] = JSON.parse(info);
+
+client.updatePresence({
+  state: `${timeLeft} remaining`,
+  details: ingame ? `${mode} on ${map}` : "In the lobby",
+
+});
+})
 
 function checkForUpdates() {
   autoUpdater.checkForUpdatesAndNotify()

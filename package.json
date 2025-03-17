@@ -37,6 +37,7 @@
     "tailwindcss": "^3.4.17"
   },
   "build": {
+    "icon": "src/logo.ico",
     "publish": [
       {
         "provider": "github",
@@ -47,7 +48,9 @@
   },
   
   "config": {
+    "icon": "src/logo.ico",
     "forge": {
+      
       "makers": [
         {
           "name": "@electron-forge/maker-squirrel",
